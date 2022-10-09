@@ -14,6 +14,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class Main {
@@ -29,11 +30,9 @@ public class Main {
 
     static final JsonFactory JSON_FACTORY = new GsonFactory();
 
-    //placeholder url, to be updated
-    private static final String TOKEN_SERVER_URL = "";
+    private static final String TOKEN_SERVER_URL = "https://polarremote.com/v2/oauth2/token";
 
-    //placeholder url, to be updated
-    private static final String AUTHORIZATION_SERVER_URL = "";
+    private static final String AUTHORIZATION_SERVER_URL = "https://flow.polar.com/oauth2/authorization";
 
     private static Credential authorize() throws Exception {
         OAuth2ClientCredentials.errorIfNotSpecified();
@@ -48,7 +47,7 @@ public class Main {
                                 OAuth2ClientCredentials.API_KEY, OAuth2ClientCredentials.API_SECRET),
                         OAuth2ClientCredentials.API_KEY,
                         AUTHORIZATION_SERVER_URL)
-                        .setScopes(Arrays.asList(SCOPE))
+                        .setScopes(List.of(SCOPE))
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder()
@@ -58,8 +57,7 @@ public class Main {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
     private static void run(HttpRequestFactory requestFactory) throws IOException {
-//TODO replace URL with real URL
-        AccesslinkUrl url = new AccesslinkUrl("https://api.accesslink.com/exercises");
+        AccesslinkUrl url = new AccesslinkUrl("https://www.polaraccesslink.com/v3");
         url.setFields("heartrate");
 
         HttpRequest request = requestFactory.buildGetRequest(url);
@@ -72,12 +70,9 @@ public class Main {
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
             final Credential credential = authorize();
             HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(
-                    new HttpRequestInitializer() {
-                        @Override
-                        public void initialize(HttpRequest request) throws IOException {
-                            credential.initialize(request);
-                            request.setParser(new JsonObjectParser(JSON_FACTORY));
-                        }
+                    request -> {
+                        credential.initialize(request);
+                        request.setParser(new JsonObjectParser(JSON_FACTORY));
                     });
             run(requestFactory);
             return;
