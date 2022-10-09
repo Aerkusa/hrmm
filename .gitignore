@@ -1,0 +1,2 @@
+#Credentials should be managed locally
+/target/classes/OAuth2ClientCredentials.class
