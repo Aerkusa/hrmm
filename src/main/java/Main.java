@@ -13,7 +13,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -24,7 +23,7 @@ public class Main {
 
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
-    private static final String SCOPE = "read";
+    private static final String SCOPE = "";
 
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
