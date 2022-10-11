@@ -13,6 +13,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -46,7 +47,7 @@ public class Main {
                                 OAuth2ClientCredentials.API_KEY, OAuth2ClientCredentials.API_SECRET),
                         OAuth2ClientCredentials.API_KEY,
                         AUTHORIZATION_SERVER_URL)
-                        .setScopes(List.of(SCOPE))
+                        .setScopes(Arrays.asList(SCOPE))
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder()
@@ -69,9 +70,12 @@ public class Main {
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
             final Credential credential = authorize();
             HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(
-                    request -> {
-                        credential.initialize(request);
-                        request.setParser(new JsonObjectParser(JSON_FACTORY));
+                    new HttpRequestInitializer() {
+                        @Override
+                        public void initialize(HttpRequest request) throws IOException {
+                            credential.initialize(request);
+                            request.setParser(new JsonObjectParser(JSON_FACTORY));
+                        }
                     });
             run(requestFactory);
             return;
