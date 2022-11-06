@@ -1,7 +1,4 @@
-import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
-import com.google.api.client.auth.oauth2.BearerToken;
-import com.google.api.client.auth.oauth2.ClientParametersAuthentication;
-import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.*;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.http.*;
@@ -47,14 +44,16 @@ public class Main {
                                 OAuth2ClientCredentials.API_KEY, OAuth2ClientCredentials.API_SECRET),
                         OAuth2ClientCredentials.API_KEY,
                         AUTHORIZATION_SERVER_URL)
-                        .setScopes(Arrays.asList(SCOPE))
+                        //.setScopes(Arrays.asList(SCOPE))
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .build();
+
+
         LocalServerReceiver receiver = new LocalServerReceiver.Builder()
                 .setHost(OAuth2ClientCredentials.DOMAIN)
                 .setPort(OAuth2ClientCredentials.PORT)
                 .build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("");
     }
     private static void run(HttpRequestFactory requestFactory) throws IOException {
         AccesslinkUrl url = new AccesslinkUrl("https://www.polaraccesslink.com/v3");
