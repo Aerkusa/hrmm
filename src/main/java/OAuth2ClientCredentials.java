@@ -2,8 +2,8 @@ import java.sql.SQLOutput;
 
 public class OAuth2ClientCredentials {
     public static final String DOMAIN = "127.0.0.1";
-    public static final String API_KEY = "Enter API Key";
-    public static final String API_SECRET = "Enter API Secret";
+    public static String API_KEY = "";     //id = 67424c18-23c5-4170-86c4-03cee1419298
+    public static String API_SECRET = ""; // secret = a2e90b01-21c4-4655-ab94-7c0d5b11ece1
     public static final int PORT = 8080;
 
     public static void errorIfNotSpecified() {
