@@ -15,8 +15,7 @@ import javax.swing.*;
 
 public class Main {
 
-    private static final File DATA_STORE_DIR =
-            new File(System.getProperty("user.home"), ".store/accesslink");
+    private static final File DATA_STORE_DIR = new File(System.getProperty("user.home"), ".store/accesslink");
 
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
@@ -66,9 +65,8 @@ public class Main {
     }
     public static void makeACall(String token){
      
-     try{
-        //Instantiating the URL class
-        //https://ssd-api.jpl.nasa.gov/fireball.api?date-min=2020-02-15
+     try{   
+        // How to get html of any webPage
       URL url = new URL("https://usman-z.github.io/3Dweb/");
       //Retrieving the contents of the specified page
       Scanner sc = new Scanner(url.openStream());
@@ -80,10 +78,10 @@ public class Main {
       }
       //Retrieving the String from the String Buffer object
       String result = sb.toString();
-      System.out.println(result);
       //Removing the HTML tags
       result = result.replaceAll("<[^>]*>", "");
-      System.out.println("Contents of the web page: "+result);
+         System.out.println("----------------------------* Content of the Page! *----------------------------");
+      System.out.println(result);
      } catch(MalformedURLException e){
          JOptionPane.showMessageDialog(new JFrame(), "URL Exception", "Error", JOptionPane.ERROR_MESSAGE);
          System.exit(0);
@@ -96,6 +94,12 @@ public class Main {
      }
      
 
+     
+     
+     
+     
+     
+     
 //      try {
 //            DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
 //            final Credential credential = authorize();
@@ -118,27 +122,17 @@ public class Main {
 }
 /*
                                       OLD CODE
-
 public class Main {
-
     private static final File DATA_STORE_DIR =
             new File(System.getProperty("user.home"), ".store/accesslink");
-
     private static FileDataStoreFactory DATA_STORE_FACTORY;
-
     private static final String SCOPE = "";
-
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-
     static final JsonFactory JSON_FACTORY = new GsonFactory();
-
     private static final String TOKEN_SERVER_URL = "https://polarremote.com/v2/oauth2/token";
-
     private static final String AUTHORIZATION_SERVER_URL = "https://flow.polar.com/oauth2/authorization";
-
     private static Credential authorize() throws Exception {
         OAuth2ClientCredentials.errorIfNotSpecified();
-
         AuthorizationCodeFlow flow =
                 new AuthorizationCodeFlow.Builder(
                         BearerToken.authorizationHeaderAccessMethod(),
@@ -152,8 +146,6 @@ public class Main {
                         //.setScopes(Arrays.asList(SCOPE))
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .build();
-
-
         LocalServerReceiver receiver = new LocalServerReceiver.Builder()
                 .setHost(OAuth2ClientCredentials.DOMAIN)
                 .setPort(OAuth2ClientCredentials.PORT)
@@ -163,12 +155,10 @@ public class Main {
     private static void run(HttpRequestFactory requestFactory) throws IOException {
         AccesslinkUrl url = new AccesslinkUrl("https://www.polaraccesslink.com/v3");
         url.setFields("heartrate");
-
         HttpRequest request = requestFactory.buildGetRequest(url);
         /* TODO: real json parse class 
         Exercise heartRate = request.execute().parseAs(Exercise.class);
     }
-
     public static void main(String[] args) {
         try {
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
